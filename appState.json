@@ -1,0 +1,177 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "b5119781-bbac-405e-9bda-893275ff6530": {
+        "id": "b5119781-bbac-405e-9bda-893275ff6530",
+        "parent": null,
+        "name": "testIndunil",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "68b1d32a-6a7c-4c5c-ba26-6efb502ac531",
+          "9d521a9b-3353-4564-9d63-d4b2de92dbef"
+        ],
+        "isRemovable": false,
+        "filePath": "testIndunil"
+      },
+      "68b1d32a-6a7c-4c5c-ba26-6efb502ac531": {
+        "id": "68b1d32a-6a7c-4c5c-ba26-6efb502ac531",
+        "parent": "b5119781-bbac-405e-9bda-893275ff6530",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "testIndunil/lambda.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.persist({\n        clusterIdentifier: 'clster',\n        params: ['1']\n    }, function (error, response, redisClient) {\n        if (error) {\n            console.log(error);\n            console.log(\"errrrrrr\");\n            callback(error);\n        } else {\n                        console.log(\"redissss\");\n            callback(redisClient);\n            //redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigeuWest1Londonqainduany",
+            "config": {}
+          }
+        ]
+      },
+      "9d521a9b-3353-4564-9d63-d4b2de92dbef": {
+        "id": "9d521a9b-3353-4564-9d63-d4b2de92dbef",
+        "parent": "b5119781-bbac-405e-9bda-893275ff6530",
+        "name": "ClusterManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "testIndunil/ClusterManager.js",
+        "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"clster\"] = {\n        host: \"clster.q5jxbk.ng.0001.euw1.cache.amazonaws.com\",\n        port: 6379,\n        clusterModeEnabled: false\n    };\n};"
+      }
+    },
+    "rootNode": "b5119781-bbac-405e-9bda-893275ff6530",
+    "openFiles": [
+      "68b1d32a-6a7c-4c5c-ba26-6efb502ac531"
+    ],
+    "currentFileId": "68b1d32a-6a7c-4c5c-ba26-6efb502ac531",
+    "resources": {
+      "apigeuWest1Londonqainduany": {
+        "name": "apigeuWest1Londonqainduany",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "eu-west-1",
+          "apiMode": 0,
+          "apiName": "London",
+          "endpointType": "REGIONAL",
+          "resourceMode": 0,
+          "resourceName": "qa/indu",
+          "resourcePath": "/qa/indu",
+          "restMethod": "ANY",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "qa",
+          "mode": 0
+        }
+      },
+      "redis-clster": {
+        "name": "redis-clster",
+        "type": "Redis",
+        "config": {
+          "clusterConfig": {
+            "engineType": "redis",
+            "clusterSpec": {
+              "instanceFamily": "t2",
+              "deployedInstanceFamily": "t2",
+              "engineVersion": "5.0.4",
+              "deployedEngineVersion": "5.0.4",
+              "nodeTypeClass": "cache.t2.micro",
+              "deployedNodeTypeClass": "cache.t2.micro",
+              "clusterModeEnabled": false,
+              "autoFailoverEnabled": "enabled",
+              "numOfShards": 1,
+              "numOfReplicas": 2
+            },
+            "clusterSetting": {
+              "clusterName": "clster",
+              "clusterDescription": "des",
+              "port": 6379
+            },
+            "host": "clster.q5jxbk.ng.0001.euw1.cache.amazonaws.com",
+            "doesExist": true,
+            "alreadyDeployed": true,
+            "external": true,
+            "redisClient": ""
+          },
+          "clusterResources": [],
+          "editMode": false,
+          "enableInject": true,
+          "isGlobalEditMode": false,
+          "isClusterSelectionValid": true,
+          "isNewFromGlobal": false,
+          "mode": 1,
+          "operation": {
+            "str": "REDIS_PERSIST",
+            "operation": "persist",
+            "displayName": "PERSIST",
+            "type": {
+              "str": "REDIS_KEYS",
+              "type": "keys",
+              "displayName": "KEYS"
+            }
+          },
+          "params": [],
+          "projectRegion": "eu-west-1",
+          "reusableMode": false,
+          "showOperations": true,
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-redis": {
+          "name": "slappforge-sdk-redis",
+          "language": "javascript",
+          "version": "0.0.3",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "testIndunil",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "eu-west-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1568184200241
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "testIndunil",
+      "url": "https://github.com/Indunil1992/testIndunil"
+    }
+  }
+}
